@@ -30,8 +30,9 @@ func main() {
 func romanToInt(s string) int {
 	xStringArray := []rune(s)
 	mapRomanLibrary := make(map[string]int)
-	isAdded := true
+	// isAdded := true
 	total := 0
+	lastTemp := 0
 
 	mapRomanLibrary["I"] = 1
 	mapRomanLibrary["V"] = 5
@@ -44,7 +45,7 @@ func romanToInt(s string) int {
 	for index := len(xStringArray) - 1; index >= 0; index-- {
 		valueToAdd := mapRomanLibrary[string(xStringArray[index])]
 
-		if isAdded {
+		if valueToAdd >= lastTemp {
 			total += valueToAdd
 		} else {
 			total -= valueToAdd
@@ -54,17 +55,7 @@ func romanToInt(s string) int {
 			total *= -1
 		}
 
-		if index == 0 {
-			break
-		}
-
-		nextPosition := mapRomanLibrary[string(xStringArray[index-1])]
-
-		if valueToAdd <= nextPosition {
-			isAdded = true
-		} else {
-			isAdded = false
-		}
+		lastTemp = valueToAdd
 	}
 
 	return total
